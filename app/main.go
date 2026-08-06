@@ -53,20 +53,28 @@ func main() {
 				//if err != nil {
 				//	log.Fatal("installing fortune is in your future")
 				//}
-				for _, p := range strings.Split(path, string(os.PathListSeparator)) {
-					fmt.Println(p)
+
+				found := false
+				dirs := strings.Split(path, string(os.PathListSeparator))
+
+				for _, p := range dirs {
 					p = strings.TrimSpace(p)
 					if strings.HasSuffix(p, "/"+command[5:]) {
 						info, err := os.Stat(p)
 						if err != nil {
-							break
+							continue
 						}
-						if info.Mode()&0111 == 0 {
+						if info.Mode()&0111 != 0 {
+							found = true
+							fmt.Println(command[5:] + " is " + p)
 							break
 						}
 					}
 				}
-				fmt.Println(command[5:] + ": not found")
+
+				if !found {
+					fmt.Println(command[5:] + ": not found")
+				}
 			}
 		} else {
 			fmt.Println(command + ": command not found")
