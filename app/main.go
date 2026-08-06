@@ -14,7 +14,7 @@ func main() {
 	// TODO: Uncomment the code below to pass the first stage
 	fmt.Print("$ ")
 
-	_, err := fmt.Scan(command)
+	_, err := fmt.Scan(&command)
 	if err != nil {
 		fmt.Println("Error reading input:", err)
 		return
