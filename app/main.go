@@ -14,6 +14,7 @@ func main() {
 
 	//var command string
 	reader := bufio.NewReader(os.Stdin)
+	path := os.Getenv("PATH")
 
 	for {
 
@@ -48,6 +49,21 @@ func main() {
 			case "echo", "exit", "type":
 				fmt.Println(command[5:] + " is a shell builtin")
 			default:
+				//path, err := exec.LookPath("fortune")
+				//if err != nil {
+				//	log.Fatal("installing fortune is in your future")
+				//}
+				for _, p := range strings.Split(path, string(os.PathListSeparator)) {
+					if strings.HasSuffix(p, "/"+command[5:]) {
+						info, err := os.Stat(p)
+						if err != nil {
+							break
+						}
+						if info.Mode()&0111 == 0 {
+							break
+						}
+					}
+				}
 				fmt.Println(command[5:] + ": not found")
 			}
 		} else {
