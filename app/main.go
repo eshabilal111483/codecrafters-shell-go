@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"path/filepath"
 	"strings"
 )
 
@@ -57,18 +58,23 @@ func main() {
 				found := false
 				dirs := strings.Split(path, string(os.PathListSeparator))
 
-				for _, p := range dirs {
-					p = strings.TrimSpace(p)
-					if strings.HasSuffix(p, "/"+command[5:]) {
-						info, err := os.Stat(p)
-						if err != nil {
-							continue
-						}
-						if info.Mode()&0111 != 0 {
-							found = true
-							fmt.Println(command[5:] + " is " + p)
-							break
-						}
+				for _, dir := range dirs {
+
+					dir = strings.TrimSpace(dir)
+					if dir == "" {
+						continue
+					}
+
+					fullPath := filepath.Join(dir, command[5:])
+
+					info, err := os.Stat(fullPath)
+					if err != nil {
+						continue
+					}
+					if info.Mode()&0111 != 0 {
+						found = true
+						fmt.Println(command[5:] + " is " + fullPath)
+						break
 					}
 				}
 
