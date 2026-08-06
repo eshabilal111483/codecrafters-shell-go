@@ -122,6 +122,8 @@ func main() {
 					cmd.Stderr = os.Stderr // Redirect errors to your terminal
 					//cmd.Stdin = os.Stdin   // Forward user keystrokes if interactive
 
+					cmd.Args = append([]string{cmdName}, cmdArgs...)
+
 					err := cmd.Run()
 					if err != nil {
 						// Optional: handle runtime execution failures
