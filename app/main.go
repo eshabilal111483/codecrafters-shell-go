@@ -54,6 +54,7 @@ func main() {
 				//	log.Fatal("installing fortune is in your future")
 				//}
 				for _, p := range strings.Split(path, string(os.PathListSeparator)) {
+					fmt.Println(p)
 					p = strings.TrimSpace(p)
 					if strings.HasSuffix(p, "/"+command[5:]) {
 						info, err := os.Stat(p)
