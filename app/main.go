@@ -39,7 +39,8 @@ func main() {
 		if command == "exit" {
 			break
 		} else if strings.Split(command, " ")[0] == "echo" {
-			fmt.Println(strings.Split(command, " ")[1:])
+			args := strings.Split(command, " ")[1:]
+			fmt.Println(strings.Join(args, " "))
 		} else {
 			fmt.Println(command + ": command not found")
 		}
