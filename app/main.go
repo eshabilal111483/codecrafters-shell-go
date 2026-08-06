@@ -38,6 +38,8 @@ func main() {
 		command = strings.TrimSpace(command)
 		if command == "exit" {
 			break
+		} else if strings.Split(command, " ")[0] == "echo" {
+			fmt.Println(strings.Split(command, " ")[1:])
 		} else {
 			fmt.Println(command + ": command not found")
 		}
