@@ -20,6 +20,6 @@ func main() {
 		return
 	}
 
-	_ = fmt.Sprintf("%v: command not found", command)
+	fmt.Printf("%v: command not found", command)
 
 }
