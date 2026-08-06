@@ -4,6 +4,7 @@ import (
 	"bufio"
 	"fmt"
 	"os"
+	"os/exec"
 	"path/filepath"
 	"strings"
 )
@@ -38,17 +39,24 @@ func main() {
 		}
 
 		command = strings.TrimSpace(command)
+
 		if command == "exit" {
 			break
+
 		} else if strings.Split(command, " ")[0] == "echo" {
 			args := strings.Split(command, " ")[1:]
 			fmt.Println(strings.Join(args, " "))
+
 			// else if strings.HasPrefix(command, "echo ") {
 			//	fmt.Println(command[5:])
+
 		} else if strings.HasPrefix(command, "type ") {
+
 			switch command[5:] {
+
 			case "echo", "exit", "type":
 				fmt.Println(command[5:] + " is a shell builtin")
+
 			default:
 				//path, err := exec.LookPath("fortune")
 				//if err != nil {
@@ -81,9 +89,52 @@ func main() {
 				if !found {
 					fmt.Println(command[5:] + ": not found")
 				}
+
 			}
+
 		} else {
-			fmt.Println(command + ": command not found")
+
+			inputParts := strings.Split(command, " ")
+			cmdName := inputParts[0]
+			cmdArgs := inputParts[1:]
+
+			found := false
+			dirs := strings.Split(path, string(os.PathListSeparator))
+
+			for _, dir := range dirs {
+
+				dir = strings.TrimSpace(dir)
+				if dir == "" {
+					continue
+				}
+
+				fullPath := filepath.Join(dir, cmdName)
+
+				info, err := os.Stat(fullPath)
+				if err != nil {
+					continue
+				}
+				if info.Mode()&0111 != 0 {
+					found = true
+
+					cmd := exec.Command(fullPath, cmdArgs...)
+					cmd.Stdout = os.Stdout // Redirect output to your terminal
+					cmd.Stderr = os.Stderr // Redirect errors to your terminal
+					//cmd.Stdin = os.Stdin   // Forward user keystrokes if interactive
+
+					err := cmd.Run()
+					if err != nil {
+						// Optional: handle runtime execution failures
+					}
+
+					break
+				}
+			}
+
+			if !found {
+				fmt.Println(command + ": command not found")
+			}
+
 		}
 
 	}
