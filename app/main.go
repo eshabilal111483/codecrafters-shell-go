@@ -39,6 +39,7 @@ func main() {
 		}
 
 		command = strings.TrimSpace(command)
+		fmt.Println("command: " + command)
 
 		if command == "exit" {
 			break
