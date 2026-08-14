@@ -43,6 +43,14 @@ func main() {
 		if command == "exit" {
 			break
 
+		} else if command == "pwd" {
+			pwd, err := os.Getwd()
+			if err != nil {
+				fmt.Println("Error getting pwd:", err)
+				return
+			}
+			fmt.Println(pwd)
+
 		} else if strings.Split(command, " ")[0] == "echo" {
 			args := strings.Split(command, " ")[1:]
 			fmt.Println(strings.Join(args, " "))
