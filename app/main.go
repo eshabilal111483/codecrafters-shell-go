@@ -104,7 +104,7 @@ func main() {
 			// if aboslute path
 			err := os.Chdir(strings.Split(command, " ")[1])
 			if err != nil {
-				fmt.Println("Error changing directory:", err)
+				fmt.Println("cd: ", strings.Split(command, " ")[1], ": No such file or directory.")
 				return
 			}
 
