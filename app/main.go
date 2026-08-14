@@ -39,7 +39,6 @@ func main() {
 		}
 
 		command = strings.TrimSpace(command)
-		fmt.Println("command: " + command)
 
 		if command == "exit" {
 			break
@@ -55,7 +54,7 @@ func main() {
 
 			switch command[5:] {
 
-			case "echo", "exit", "type":
+			case "echo", "exit", "type", "pwd":
 				fmt.Println(command[5:] + " is a shell builtin")
 
 			default:
