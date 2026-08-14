@@ -100,7 +100,7 @@ func main() {
 			}
 			fmt.Println(pwd)
 
-		} else if command == "cd" {
+		} else if strings.HasPrefix(command, "cd ") {
 			// if aboslute path
 			err := os.Chdir(strings.Split(command, " ")[1])
 			if err != nil {
