@@ -102,10 +102,11 @@ func main() {
 
 		} else if strings.HasPrefix(command, "cd ") {
 			// if aboslute path
-			err := os.Chdir(strings.Split(command, " ")[1])
+			dir := strings.TrimSpace(strings.TrimPrefix(command, "cd "))
+			err := os.Chdir(dir)
 			if err != nil {
-				fmt.Println("cd: " + strings.TrimSpace(strings.Split(command, " ")[1]) + ": No such file or directory")
-				return
+				fmt.Printf("cd: %s: No such file or directory\n", dir)
+				continue
 			}
 
 		} else {
