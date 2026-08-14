@@ -100,6 +100,14 @@ func main() {
 			}
 			fmt.Println(pwd)
 
+		} else if command == "cd" {
+			// if aboslute path
+			err := os.Chdir(strings.Split(command, " ")[1])
+			if err != nil {
+				fmt.Println("Error changing directory:", err)
+				return
+			}
+
 		} else {
 
 			inputParts := strings.Split(command, " ")
