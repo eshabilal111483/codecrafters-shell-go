@@ -17,6 +17,7 @@ func main() {
 	//var command string
 	reader := bufio.NewReader(os.Stdin)
 	path := os.Getenv("PATH")
+	home_dir := os.Getenv("HOME")
 
 	for {
 
@@ -103,7 +104,13 @@ func main() {
 		} else if strings.HasPrefix(command, "cd ") {
 			// if aboslute path
 			dir := strings.TrimSpace(strings.TrimPrefix(command, "cd "))
-			err := os.Chdir(dir)
+
+			if dir == "~" {
+				err = os.Chdir(home_dir)
+			} else {
+				err = os.Chdir(dir)
+			}
+
 			if err != nil {
 				fmt.Printf("cd: %s: No such file or directory\n", dir)
 				continue
